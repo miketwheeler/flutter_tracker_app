@@ -36,7 +36,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.time_tracker_flutter_course"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -62,3 +62,5 @@ dependencies {
 	//When using the BoM, don't specify versions in Firebase dependencies
 	// implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
