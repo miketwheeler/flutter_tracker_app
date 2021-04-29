@@ -3,20 +3,22 @@ import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthBase {
-  User? get currentUser;
+  User get currentUser;
   Stream<User?> authStateChanges();
   Future<User> signInAnonymously();
   Future<User> signInWithGoogle();
+  Future<User> createUserWithEmailAndPassword(String email, String password);
+  Future<User> signInWithEmailAndPassword(String email, String password);
   Future<User> signInWithFacebook();
   Future<void> signOut();
 }
+
 // Instances variables for the Auth class
 final facebookLogin = FacebookLogin();
 final googleSignIn = GoogleSignIn();
 
-
 /// Logs in a user after vaidation calls anon, FB, and Google
-/// There is an issue with FB login assigned UIDs and associated Google 
+/// There is an issue with FB login assigned UIDs and associated Google
 /// accounts
 class Auth implements AuthBase {
   final _firebaseAuth = FirebaseAuth.instance;
@@ -25,11 +27,29 @@ class Auth implements AuthBase {
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
   @override
-  User? get currentUser => _firebaseAuth.currentUser!;
+  User get currentUser => _firebaseAuth.currentUser!;
 
   @override
   Future<User> signInAnonymously() async {
     final userCredential = await _firebaseAuth.signInAnonymously();
+    return userCredential.user!;
+  }
+
+  @override
+  Future<User> signInWithEmailAndPassword(String email, String password) async {
+    final userCredential = await _firebaseAuth.signInWithCredential(
+      EmailAuthProvider.credential(email: email, password: password),
+    );
+    return userCredential.user!;
+  }
+
+  @override
+  Future<User> createUserWithEmailAndPassword(
+      String email, String password) async {
+    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
     return userCredential.user!;
   }
 
