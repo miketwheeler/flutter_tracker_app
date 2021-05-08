@@ -15,7 +15,7 @@ class EmailSignInModel with EmailAndPasswordValidators {
   final String password;
   final EmailSignInFormType formType;
   final bool isLoading;
-  final submitted;
+  final bool submitted;
 
   String get primaryButtonText {
     return formType == EmailSignInFormType.signIn
