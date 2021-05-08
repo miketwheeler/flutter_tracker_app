@@ -3,7 +3,7 @@ import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthBase {
-  User get currentUser;
+  User? get currentUser;
   Stream<User?> authStateChanges();
   Future<User> signInAnonymously();
   Future<User> signInWithGoogle();
@@ -27,7 +27,7 @@ class Auth implements AuthBase {
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
   @override
-  User get currentUser => _firebaseAuth.currentUser!;
+  User? get currentUser => _firebaseAuth.currentUser;
 
   @override
   Future<User> signInAnonymously() async {

@@ -6,7 +6,7 @@ Future<bool?> showAlertDialog(
   BuildContext context, {
   required String title,
   required String content,
-  String ?cancelActionText,
+  String? cancelActionText,
   required String defaultActionText,
 }) {
   if (!Platform.isIOS) {
