@@ -35,7 +35,7 @@ class JobsPage extends StatelessWidget {
         context,
         listen: false,
       );
-      await database.createJob(Job(name: 'Blogging', ratePerHour: 10));
+      await database.createJob(Job( name: 'Blogging', ratePerHour: 10)); //id: "1",
     } on FirebaseException catch (e) {
       showExceptionAlertDialog(
         context,
@@ -78,6 +78,9 @@ class JobsPage extends StatelessWidget {
           final jobs = snapshot.data;
           final children = jobs?.map((job) => Text(job.name)).toList();
           return ListView(children: children!);
+        }
+        if (snapshot.hasError){
+          return Center(child: Text('Some error occured'));
         }
         return Center(child: CircularProgressIndicator());
       },
