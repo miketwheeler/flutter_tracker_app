@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:time_tracker_flutter_course/services/database.dart';
 
 class AddJobPage extends StatefulWidget {
+  const AddJobPage({Key? key, required this.database}) : super(key: key);
+  final Database database;
+
   static Future<void> show(BuildContext context) async {
-    await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => AddJobPage(),
-      fullscreenDialog: true,
-    ));
+    final database = Provider.of<Database>(context, listen: false);
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AddJobPage(database: database),
+        fullscreenDialog: true,
+      )
+    );
   }
 
   @override
@@ -30,8 +38,8 @@ class _AddJobPageState extends State<AddJobPage> {
   void _submit() {
     if (_validateAndSaveForm()) {
       print('form save, name: $_name, ratePerHour: $_ratePerHour');
+      final database = Provider.of<Database>(context, listen: false);
     }
-    //TODO: grab and store data
   }
 
   @override
@@ -81,7 +89,8 @@ class _AddJobPageState extends State<AddJobPage> {
     return [
       TextFormField(
         decoration: InputDecoration(labelText: 'Job name'),
-        validator: (value) => value!.isNotEmpty ? null : 'Name can\'t be empty!',
+        validator: (value) =>
+            value!.isNotEmpty ? null : 'Name can\'t be empty!',
         onSaved: (value) => _name = value,
       ),
       TextFormField(
